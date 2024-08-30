@@ -1,0 +1,9 @@
+# curl -u "sk_live_xxx:" "https://api.octopus.energy/v1/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-AGILE-FLEX-22-11-25-E/standard-unit-rates/"
+# $env:OCTOPUS_API_KEY = "sk_live_"
+
+@apiKey={{$processEnv OCTOPUS_API_KEY}}
+@url=https://api.octopus.energy/v1
+
+###
+GET {{url}}/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-AGILE-FLEX-22-11-25-E/standard-unit-rates/?page=1
+Authorization: Basic {{apiKey}}:

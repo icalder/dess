@@ -1,0 +1,31 @@
+# $env:VRM_PASSWORD = "password"
+
+@api=https://vrmapi.victronenergy.com/v2
+@siteId=449463
+
+# @name login
+POST {{api}}/auth/login
+Content-Type: application/json
+User-Agent: curl/8.6.0
+
+{
+  "username": "iain.calder@gmail.com",
+  "password": "{{$processEnv VRM_PASSWORD}}"
+}
+
+###
+
+@token = {{login.response.body.$.token}}
+@userId = {{login.response.body.$.idUser}}
+
+###
+GET {{api}}/installations/{{siteId}}/dynamic-ess-settings
+X-Authorization: Bearer {{token}}
+
+###
+GET {{api}}/installations/{{siteId}}/system-overview
+X-Authorization: Bearer {{token}}
+
+###
+GET {{api}}/installations/{{siteId}}/alarms
+X-Authorization: Bearer {{token}}

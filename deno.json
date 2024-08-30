@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "run": "deno run --allow-env=VRM_PASSWORD,OCTOPUS_API_KEY --allow-net=vrmapi.victronenergy.com,api.octopus.energy main.ts"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
