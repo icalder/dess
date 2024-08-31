@@ -20,6 +20,8 @@ export type Period = {
 };
 
 export type DynamicESSSettings = {
+  [key: string]: unknown;
+  isOn: boolean;
   buyPriceSchedule: Period[];
 };
 
@@ -69,4 +71,36 @@ export async function getDynamicESSSettings(
   }
 
   return data.data as DynamicESSSettings;
+}
+
+export async function updateDynamicESSSettings(
+  apiToken: VRMAPIToken,
+  siteId: string,
+  settings: DynamicESSSettings
+) {
+  // Remove fields not applicable to POST
+  delete settings["idSite"];
+  delete settings["createdOn"];
+  delete settings["updatedOn"];
+  delete settings["apiKey"];
+  delete settings["accountName"];
+
+  const url = `${vrmApiUrl}/installations/${siteId}/dynamic-ess-settings`;
+  const body = JSON.stringify(settings, null, 2);
+  console.log(body);
+  const resp = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      "X-Authorization": `Bearer ${apiToken.token}`,
+      "Content-Type": "application/json",
+    },
+    body,
+  });
+
+  if (!resp.ok) {
+    const msg = await resp.text();
+    throw new Error(
+      `Failed to update ESS settings(${resp.statusText}): ${msg}`
+    );
+  }
 }
