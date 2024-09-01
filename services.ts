@@ -61,3 +61,40 @@ export class BuyPriceScheduleBuilder {
     return result;
   }
 }
+
+export function scheduleComparer(
+  computed: Period[],
+  actual: Period[]
+): boolean {
+  if (computed.length != actual.length) {
+    console.log(
+      `scheduleComparer: period length mismatch: ${computed.length} ${actual.length}`
+    );
+    return false;
+  }
+
+  // computed will always have one period for each day
+  for (let day = 0; day != computed.length; ++day) {
+    if (computed[day].days.length != actual[day].days.length) {
+      console.log("scheduleComparer: days length mismatch");
+      return false;
+    }
+    const cs = computed[day].schedule;
+    const as = actual[day].schedule;
+    // Schedules should each have 48 half-our tariffs
+    if (cs.length != as.length) {
+      console.log(`scheduleComparer: tariff length mismatch for day ${day}`);
+      return false;
+    }
+
+    for (let i = 0; i != cs.length; ++i) {
+      const ct = cs[i];
+      const at = as[i];
+      if (ct.from != at.from || ct.to != at.to || ct.price != at.price) {
+        console.log(`scheduleComparer: tariff mismatch for day ${day}`);
+      }
+    }
+  }
+
+  return true;
+}

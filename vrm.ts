@@ -70,7 +70,12 @@ export async function getDynamicESSSettings(
     throw new Error(`Failed to get dynamic ESS settings: ${data}}`);
   }
 
-  return data.data as DynamicESSSettings;
+  // for some reason buyPriceSchedule is encoded as a string...
+  const buyPriceSchedule = JSON.parse(data.data.buyPriceSchedule) as Period[];
+
+  const result = data.data as DynamicESSSettings;
+  result.buyPriceSchedule = buyPriceSchedule;
+  return result;
 }
 
 export async function updateDynamicESSSettings(
@@ -87,7 +92,7 @@ export async function updateDynamicESSSettings(
 
   const url = `${vrmApiUrl}/installations/${siteId}/dynamic-ess-settings`;
   const body = JSON.stringify(settings, null, 2);
-  console.log(body);
+  // console.log(body);
   const resp = await fetch(url, {
     method: "PATCH",
     headers: {
