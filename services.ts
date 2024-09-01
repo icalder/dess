@@ -95,6 +95,7 @@ export function scheduleComparer(
       const at = as[i];
       if (ct.from != at.from || ct.to != at.to || ct.price != at.price) {
         console.log(`scheduleComparer: tariff mismatch for day ${day}`);
+        return false;
       }
     }
   }
