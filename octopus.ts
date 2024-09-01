@@ -19,13 +19,13 @@ export class Tariff {
     return this.valueIncVat / 100;
   }
 
-  // Sunday = 0
+  // In JS Sunday = 0, Saturday = 6
+  // For VRM comparisons translate so that Monday = 0, Sunday = 6
+  // Wanted: 0 1 2 3 4 5 6
+  // Have:   1 2 3 4 5 6 0
   public getDay(): number {
-    return this.validFrom.getDay();
-  }
-
-  public getDayStr(): string {
-    return dayFormatter.format(this.validFrom);
+    const d = this.validFrom.getDay();
+    return d == 0 ? 6 : d - 1;
   }
 
   public getHour(): number {
@@ -58,7 +58,7 @@ export class Tariff {
   }
 
   public toString(): string {
-    return `${this.getDayStr()} ${this.getFrom()} - ${this.getTo()}: £${this.getValueIncVatInPounds().toFixed(
+    return `${this.getDay()} ${this.getFrom()} - ${this.getTo()}: £${this.getValueIncVatInPounds().toFixed(
       2
     )}`;
   }

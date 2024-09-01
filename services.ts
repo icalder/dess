@@ -5,6 +5,9 @@ we want to be able to synthesise the buyPriceSchedule to POST to the VRM API
 
 [{"days":[0,1,2,3,4,5,6],"schedule":[{"from":"00:00","to":"00:00","price":0.2169}]}]
 
+NB!  Victron has day 0 = Monday
+Javascript has day 0 = Sunday :-(
+
 */
 
 import { padHoursOrMins } from "./utils.ts";
