@@ -26,6 +26,7 @@ export class Tariff {
   public getDay(): number {
     const d = this.validFrom.getDay();
     return d == 0 ? 6 : d - 1;
+    //return d;
   }
 
   public getHour(): number {
