@@ -16,6 +16,55 @@ import { Tariff as OctopusTariff } from "./octopus.ts";
 
 const FIXED_UNIT_PRICE = 0.2169;
 
+// export class BuyPriceScheduleBuilder {
+//   private tariff: number[][] = [];
+//   constructor() {
+//     // 7 days
+//     for (let i = 0; i != 7; ++i) {
+//       // 48 half-hour slots in each day
+//       this.tariff.push(new Array(48).fill(FIXED_UNIT_PRICE));
+//     }
+//   }
+
+//   private getDailyTariff(day: number): Tariff[] {
+//     const result = [] as Tariff[];
+//     const prices = this.tariff[day];
+//     for (let i = 0; i != 48; ++i) {
+//       let hour = ~~(i / 2) % 24;
+//       let minute = (i % 2) * 30;
+//       const from = padHoursOrMins(hour) + ":" + padHoursOrMins(minute);
+//       const j = i + 1;
+//       hour = ~~(j / 2) % 24;
+//       minute = (j % 2) * 30;
+//       const to = padHoursOrMins(hour) + ":" + padHoursOrMins(minute);
+//       result.push({ from, to, price: prices[i] });
+//     }
+//     return result;
+//   }
+
+//   public addTariffs(tariffs: OctopusTariff[]) {
+//     for (const tariff of tariffs) {
+//       const day = tariff.getDay();
+//       const daySlots = this.tariff[day];
+//       const slot = tariff.getSlot();
+//       daySlots[slot] = tariff.getValueIncVatInPounds();
+//     }
+//   }
+
+//   public build(): Period[] {
+//     const result = [] as Period[];
+//     for (let i = 0; i < 7; ++i) {
+//       const period: Period = {
+//         days: [i],
+//         schedule: this.getDailyTariff(i),
+//       };
+//       result.push(period);
+//     }
+
+//     return result;
+//   }
+// }
+
 export class BuyPriceScheduleBuilder {
   private tariff: number[][] = [];
   constructor() {
@@ -52,16 +101,13 @@ export class BuyPriceScheduleBuilder {
   }
 
   public build(): Period[] {
-    const result = [] as Period[];
-    for (let i = 0; i < 7; ++i) {
-      const period: Period = {
-        days: [i],
-        schedule: this.getDailyTariff(i),
-      };
-      result.push(period);
-    }
-
-    return result;
+    const today = new Date();
+    return [
+      {
+        days: [0, 1, 2, 3, 4, 5, 6],
+        schedule: this.getDailyTariff(today.getDay()),
+      },
+    ];
   }
 }
 
@@ -77,16 +123,16 @@ export function scheduleComparer(
   }
 
   // computed will always have one period for each day
-  for (let day = 0; day != computed.length; ++day) {
-    if (computed[day].days.length != actual[day].days.length) {
+  for (let i = 0; i != computed.length; ++i) {
+    if (computed[i].days.length != actual[i].days.length) {
       console.log("scheduleComparer: days length mismatch");
       return false;
     }
-    const cs = computed[day].schedule;
-    const as = actual[day].schedule;
+    const cs = computed[i].schedule;
+    const as = actual[i].schedule;
     // Schedules should each have 48 half-our tariffs
     if (cs.length != as.length) {
-      console.log(`scheduleComparer: tariff length mismatch for day ${day}`);
+      console.log(`scheduleComparer: tariff length mismatch for day ${i}`);
       return false;
     }
 
@@ -94,7 +140,7 @@ export function scheduleComparer(
       const ct = cs[i];
       const at = as[i];
       if (ct.from != at.from || ct.to != at.to || ct.price != at.price) {
-        console.log(`scheduleComparer: tariff mismatch for day ${day}`);
+        console.log(`scheduleComparer: tariff mismatch for day ${i}`);
         return false;
       }
     }

@@ -10,7 +10,7 @@ GET {{url}}/accounts/A-34298F7D
 Authorization: Basic {{apiKey}}:
 
 ###
-GET {{url}}/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-VAR-22-11-01-E/standard-unit-rates/?page=1
+GET {{url}}/products/VAR-22-11-01/electricity-tariffs/E-1R-VAR-22-11-01-E/standard-unit-rates/?page=1
 Authorization: Basic {{apiKey}}:
 
 ###

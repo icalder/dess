@@ -39,6 +39,6 @@ if (import.meta.main) {
   console.log("updating dynamic ESS settings");
 
   settings.buyPriceSchedule = schedule;
-  settings.isOn = false;
+  //settings.isOn = false;
   updateDynamicESSSettings(apiToken, siteId.toString(), settings);
 }
