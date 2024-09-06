@@ -1,4 +1,5 @@
 FROM denoland/deno:distroless-1.46.3
+ENV TZ="Europe/London"
 WORKDIR /app
 COPY deno.json deno.lock *.ts ./
 RUN ["deno", "cache", "--reload", "--lock=deno.lock", "main.ts"]

@@ -12,6 +12,7 @@ export class Tariff {
 
   constructor(validFrom: string, validTo: string, private valueIncVat: number) {
     this.validFrom = new Date(validFrom);
+    //console.log(this.validFrom.getTimezoneOffset()); // -60 : this is the difference between UTC and local time i.e. GMT+1
     this.validTo = new Date(validTo);
   }
 
