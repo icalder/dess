@@ -67,7 +67,7 @@ export class Tariff {
 }
 
 export async function getTariffs(apiKey: string): Promise<Tariff[]> {
-  const url = `${octopusApiUrl}/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-AGILE-FLEX-22-11-25-E/standard-unit-rates/`;
+  const url = `${octopusApiUrl}/products/AGILE-24-04-03/electricity-tariffs/E-1R-AGILE-24-04-03-E/standard-unit-rates/`;
   const resp = await fetch(url, {
     headers: {
       Authorization: "Basic " + btoa(apiKey + ":"),

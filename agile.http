@@ -14,7 +14,7 @@ GET {{url}}/products/VAR-22-11-01/electricity-tariffs/E-1R-VAR-22-11-01-E/standa
 Authorization: Basic {{apiKey}}:
 
 ###
-GET {{url}}/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-AGILE-FLEX-22-11-25-E/standard-unit-rates/?page=1
+GET {{url}}/products/AGILE-24-04-03/electricity-tariffs/E-1R-AGILE-24-04-03-E/standard-unit-rates/?page=1
 Authorization: Basic {{apiKey}}:
 
 ###
